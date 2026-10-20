@@ -1,17 +1,21 @@
 
 {
   "id": "./",
-  "name": "LifeMate Offline - MASTERMIND",
+  "name": "LifeMate Offline - MASTERMIND Ultimate",
   "short_name": "LifeMate",
-  "description": "Your personal offline life organizer",
+  "description": "Your personal offline life manager for money, habits, tasks, notes, goals and daily planning.",
   "lang": "en",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "any",
-  "background_color": "#10090c",
-  "theme_color": "#170b0e",
-  "categories": ["productivity", "utilities", "lifestyle"],
+  "orientation": "portrait-primary",
+  "theme_color": "#160b12",
+  "background_color": "#160b12",
+  "categories": [
+    "productivity",
+    "lifestyle",
+    "utilities"
+  ],
   "icons": [
     {
       "src": "./icon.svg",
