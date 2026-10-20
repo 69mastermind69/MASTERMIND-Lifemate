@@ -991,6 +991,7 @@ function initPinLock() {
   });
 }
 
+
 /* ------------------------------------------
    PWA INSTALL
 ------------------------------------------ */
@@ -1002,9 +1003,12 @@ function updateInstallButtons(available) {
   const settingsButton = $("installAppSettings");
 
   if (headerButton) headerButton.hidden = !available;
+
   if (settingsButton) {
     settingsButton.disabled = !available;
-    settingsButton.textContent = available ? "Install App" : "Install option unavailable";
+    settingsButton.textContent = available
+      ? "Install App"
+      : "Install option unavailable";
   }
 }
 
@@ -1041,16 +1045,20 @@ function initPWA() {
     showToast("LifeMate installation completed.");
   });
 
-  $("installApp").addEventListener("click", promptInstall);
-  $("installAppSettings").addEventListener("click", promptInstall);
+  $("installApp")?.addEventListener("click", promptInstall);
+  $("installAppSettings")?.addEventListener("click", promptInstall);
 
   const installHelp = $("installHelp");
-  if (installHelp && window.matchMedia("(display-mode: standalone)").matches) {
-    installHelp.textContent = "LifeMate is running in its installed app window.";
+
+  if (
+    installHelp &&
+    window.matchMedia("(display-mode: standalone)").matches
+  ) {
+    installHelp.textContent =
+      "LifeMate is running in its installed app window.";
   }
 }
 
-  
 /* ------------------------------------------
    SERVICE WORKER + AUTO UPDATE
 ------------------------------------------ */
@@ -1086,7 +1094,8 @@ if ("serviceWorker" in navigator && location.protocol !== "file:") {
   }
 
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./service-worker.js")
+    navigator.serviceWorker
+      .register("./service-worker.js")
       .then((registration) => {
         console.log("LifeMate service worker registered.");
 
@@ -1126,7 +1135,6 @@ if ("serviceWorker" in navigator && location.protocol !== "file:") {
       });
   });
 }
-
 
 /* ------------------------------------------
    RENDER ALL
@@ -1171,3 +1179,4 @@ if (document.readyState === "loading") {
 } else {
   initApp();
 }
+
