@@ -1049,14 +1049,83 @@ function initPWA() {
     installHelp.textContent = "LifeMate is running in its installed app window.";
   }
 
-  if ("serviceWorker" in navigator && location.protocol !== "file:") {
-    window.addEventListener("load", () => {
-      navigator.serviceWorker.register("./service-worker.js")
-        .then(() => console.log("LifeMate offline service worker registered."))
-        .catch((error) => console.error("Service worker registration failed:", error));
-    });
+  
+/* ------------------------------------------
+   SERVICE WORKER + AUTO UPDATE
+------------------------------------------ */
+
+if ("serviceWorker" in navigator && location.protocol !== "file:") {
+  let updatePromptShown = false;
+  let refreshing = false;
+
+  const hadController = Boolean(
+    navigator.serviceWorker.controller
+  );
+
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (hadController && !refreshing) {
+      refreshing = true;
+      window.location.reload();
+    }
+  });
+
+  function offerLifeMateUpdate(worker) {
+    if (!worker || updatePromptShown) return;
+
+    updatePromptShown = true;
+
+    const accepted = window.confirm(
+      "LifeMate Offline-এর নতুন আপডেট পাওয়া গেছে!\n\n" +
+      "Update now চাপলে নতুন ভার্সন চালু হবে।"
+    );
+
+    if (accepted) {
+      worker.postMessage("SKIP_WAITING");
+    }
   }
+
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js")
+      .then((registration) => {
+        console.log("LifeMate service worker registered.");
+
+        if (
+          registration.waiting &&
+          navigator.serviceWorker.controller
+        ) {
+          offerLifeMateUpdate(registration.waiting);
+        }
+
+        registration.addEventListener("updatefound", () => {
+          const newWorker = registration.installing;
+
+          if (!newWorker) return;
+
+          newWorker.addEventListener("statechange", () => {
+            if (
+              newWorker.state === "installed" &&
+              navigator.serviceWorker.controller
+            ) {
+              offerLifeMateUpdate(
+                registration.waiting || newWorker
+              );
+            }
+          });
+        });
+
+        registration.update().catch((error) => {
+          console.warn("Update check failed:", error);
+        });
+      })
+      .catch((error) => {
+        console.error(
+          "Service worker registration failed:",
+          error
+        );
+      });
+  });
 }
+
 
 /* ------------------------------------------
    RENDER ALL
