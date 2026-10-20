@@ -1048,6 +1048,7 @@ function initPWA() {
   if (installHelp && window.matchMedia("(display-mode: standalone)").matches) {
     installHelp.textContent = "LifeMate is running in its installed app window.";
   }
+}
 
   
 /* ------------------------------------------
