@@ -5,404 +5,820 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#170b0e">
-  <meta name="description" content="LifeMate Offline - Your personal offline life organizer">
-  <meta name="application-name" content="LifeMate Offline">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>LifeMate Offline | MASTERMIND</title>
+  <meta name="description" content="LifeMate Offline - Your private, offline-first personal life organizer.">
+  <meta name="color-scheme" content="dark light">
+  <title>LifeMate Offline — MASTERMIND Ultimate</title>
 
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="icon.svg" type="image/svg+xml">
-  <link rel="apple-touch-icon" href="icon.svg">
-  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
+  <a class="skip-link" href="#mainContent">Skip to content</a>
 
   <!-- PIN LOCK SCREEN -->
-  <div id="lockScreen" class="lock-screen" hidden>
+  <section id="lockScreen" class="lock-screen" hidden aria-labelledby="lockTitle">
     <div class="lock-card">
-      <div class="brand-icon lock-brand-icon">♥</div>
-      <p class="eyebrow">MASTERMIND EDITION</p>
-      <h1 id="lockTitle">LifeMate <span>Offline</span></h1>
+      <div class="app-logo" aria-hidden="true">♥</div>
+      <p class="eyebrow">YOUR PRIVATE SPACE</p>
+      <h1 id="lockTitle">Welcome back</h1>
       <p id="lockMessage">Enter your PIN to continue.</p>
 
       <form id="pinForm">
-        <label for="pinInput">4–6 digit PIN</label>
+        <label for="pinInput">Your PIN</label>
         <input
           id="pinInput"
+          name="pin"
           type="password"
           inputmode="numeric"
           autocomplete="current-password"
-          pattern="[0-9]{4,6}"
-          minlength="4"
-          maxlength="6"
+          maxlength="64"
           placeholder="Enter PIN"
           required
         >
-        <button id="pinSubmit" class="primary-button" type="submit">
-          Unlock App
+        <button id="pinSubmit" class="btn btn-primary" type="submit">
+          Unlock LifeMate
         </button>
       </form>
 
-      <p id="pinHint" class="lock-hint">Your personal space, protected.</p>
+      <p id="pinHint" class="muted"></p>
+      <p class="small muted">
+        Your data is stored on this device. A PIN lock is not the same as encryption.
+      </p>
     </div>
-  </div>
+  </section>
 
-  <div id="appRoot" class="app-shell">
+  <!-- APP SHELL -->
+  <div id="appShell" class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#home" data-page-link="home" aria-label="LifeMate home">
+        <span class="brand-icon" aria-hidden="true">♥</span>
+        <span class="brand-copy">
+          <strong>LifeMate</strong>
+          <small>MASTERMIND ULTIMATE</small>
+        </span>
+      </a>
 
-    <header class="top-header">
-      <div class="brand">
-        <div class="brand-icon">♥</div>
-        <div>
-          <h1>LifeMate <span>Offline</span></h1>
-          <p class="developer-credit">MASTERMIND EDITION</p>
-        </div>
-      </div>
-
-      <div class="header-actions">
-        <button id="installApp" class="install-button" type="button" hidden>
-          ⬇ Install
+      <div class="topbar-actions">
+        <button id="installApp" class="icon-btn" type="button" hidden aria-label="Install app" title="Install app">
+          <span aria-hidden="true">⇩</span>
         </button>
-        <button
-          id="themeToggle"
-          class="theme-toggle"
-          type="button"
-          aria-label="Toggle dark and light mode"
-          title="Change theme"
-        >☀️</button>
+        <button id="themeToggle" class="icon-btn" type="button" aria-label="Toggle theme" title="Toggle theme">
+          <span aria-hidden="true">◐</span>
+        </button>
       </div>
     </header>
 
-    <main id="appMain">
+    <div class="app-layout">
+      <!-- DESKTOP SIDEBAR -->
+      <aside class="sidebar" aria-label="Main navigation">
+        <p class="nav-caption">WORKSPACE</p>
 
-      <!-- HOME / ADVANCED DASHBOARD -->
-      <section id="home" class="page active">
-        <div class="welcome-card">
-          <p class="eyebrow">YOUR PERSONAL SPACE</p>
-          <h2>Welcome to <span>LifeMate</span></h2>
-          <p>Organize your day. Track your goals. Keep everything in one place.</p>
-          <div class="welcome-decoration">✦</div>
+        <button class="nav-link active" type="button" data-page="home">
+          <span aria-hidden="true">⌂</span> Dashboard
+        </button>
+        <button class="nav-link" type="button" data-page="money">
+          <span aria-hidden="true">৳</span> Money Manager
+        </button>
+        <button class="nav-link" type="button" data-page="calendar">
+          <span aria-hidden="true">▦</span> Calendar & Planner
+        </button>
+        <button class="nav-link" type="button" data-page="habits">
+          <span aria-hidden="true">↗</span> Habits
+        </button>
+        <button class="nav-link" type="button" data-page="todo">
+          <span aria-hidden="true">☑</span> Tasks
+        </button>
+        <button class="nav-link" type="button" data-page="pomodoro">
+          <span aria-hidden="true">◷</span> Focus Timer
+        </button>
+        <button class="nav-link" type="button" data-page="mood">
+          <span aria-hidden="true">☻</span> Mood Tracker
+        </button>
+        <button class="nav-link" type="button" data-page="goals">
+          <span aria-hidden="true">◎</span> Goals
+        </button>
+        <button class="nav-link" type="button" data-page="notes">
+          <span aria-hidden="true">▤</span> Notes
+        </button>
+
+        <p class="nav-caption">EVERYDAY TOOLS</p>
+
+        <button class="nav-link" type="button" data-page="shopping">
+          <span aria-hidden="true">🛒</span> Shopping List
+        </button>
+        <button class="nav-link" type="button" data-page="diary">
+          <span aria-hidden="true">✎</span> Diary
+        </button>
+        <button class="nav-link" type="button" data-page="water">
+          <span aria-hidden="true">♧</span> Water Tracker
+        </button>
+        <button class="nav-link" type="button" data-page="calculator">
+          <span aria-hidden="true">＋</span> Calculator
+        </button>
+        <button class="nav-link" type="button" data-page="qr">
+          <span aria-hidden="true">▦</span> QR Generator
+        </button>
+
+        <p class="nav-caption">APP</p>
+
+        <button class="nav-link" type="button" data-page="search">
+          <span aria-hidden="true">⌕</span> Search Everything
+        </button>
+        <button class="nav-link" type="button" data-page="backup">
+          <span aria-hidden="true">⚙</span> Settings & Backup
+        </button>
+
+        <div class="sidebar-footer">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span>Offline-first workspace</span>
         </div>
+      </aside>
 
-        <div class="section-heading">
-          <h2>Your Life Dashboard</h2>
-          <p id="dashboardDate">Your daily overview.</p>
-        </div>
+      <!-- MAIN CONTENT -->
+      <main id="mainContent" class="main-content" tabindex="-1">
 
-        <div class="advanced-stats">
-          <article class="stat-card">
-            <span class="stat-icon">💰</span>
-            <p>Total Income</p>
-            <h3 id="dashIncome">৳0</h3>
-          </article>
-          <article class="stat-card">
-            <span class="stat-icon">💸</span>
-            <p>Total Expenses</p>
-            <h3 id="dashExpense">৳0</h3>
-          </article>
-          <article class="stat-card">
-            <span class="stat-icon">💎</span>
-            <p>Balance</p>
-            <h3 id="dashBalance">৳0</h3>
-          </article>
-          <article class="stat-card">
-            <span class="stat-icon">✅</span>
-            <p>Tasks Completed</p>
-            <h3 id="dashTasks">0 / 0</h3>
-          </article>
-        </div>
-
-        <div class="panel dashboard-progress-panel">
-          <div class="progress-heading">
+        <!-- DASHBOARD -->
+        <section id="home" class="page active" data-page-section="home">
+          <div class="welcome-row">
             <div>
-              <h3>Today's Progress</h3>
-              <p>Your completed tasks and habits.</p>
+              <p class="eyebrow">YOUR PERSONAL WORKSPACE</p>
+              <h1>Dashboard</h1>
+              <p id="dashboardDate" class="muted">Make today count.</p>
             </div>
-            <strong id="dashProgressPercent">0%</strong>
+            <button class="btn btn-secondary" type="button" data-page="todo">
+              + Add a task
+            </button>
           </div>
-          <div class="progress-track">
-            <div id="dashProgressBar" class="progress-fill"></div>
-          </div>
-          <div class="progress-details">
-            <span id="dashHabitSummary">Habits: 0 / 0</span>
-            <span id="dashShoppingSummary">Shopping: 0 / 0</span>
-          </div>
-        </div>
 
-        <div class="panel">
-          <div class="progress-heading">
-            <div>
-              <h3>Water Intake</h3>
-              <p id="dashWaterText">0 ml today</p>
+          <div class="dashboard-grid">
+            <article class="stat-card">
+              <span class="stat-label">Total income</span>
+              <strong id="dashIncome" class="stat-value">৳0.00</strong>
+              <span class="stat-note">Recorded income</span>
+            </article>
+
+            <article class="stat-card">
+              <span class="stat-label">Total expenses</span>
+              <strong id="dashExpense" class="stat-value">৳0.00</strong>
+              <span class="stat-note">Recorded spending</span>
+            </article>
+
+            <article class="stat-card">
+              <span class="stat-label">Current balance</span>
+              <strong id="dashBalance" class="stat-value">৳0.00</strong>
+              <span class="stat-note">Income minus expenses</span>
+            </article>
+
+            <article class="stat-card">
+              <span class="stat-label">Tasks remaining</span>
+              <strong id="dashTasks" class="stat-value">0</strong>
+              <span class="stat-note">Your next steps</span>
+            </article>
+          </div>
+
+          <div class="content-grid">
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">DAILY PROGRESS</p>
+                  <h2>Today's overview</h2>
+                </div>
+                <strong id="dashProgressPercent">0%</strong>
+              </div>
+              <div class="progress-track" role="progressbar" aria-label="Daily task completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="dashProgressBar">
+                <span></span>
+              </div>
+              <p class="muted">Small steps add up. Keep going.</p>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">WATER CHECK</p>
+                  <h2>Hydration</h2>
+                </div>
+                <span aria-hidden="true">💧</span>
+              </div>
+              <strong id="dashWaterText">0 / 2000 ml</strong>
+              <div class="progress-track" id="dashWaterBar" role="progressbar" aria-label="Water intake progress" aria-valuemin="0" aria-valuemax="2000" aria-valuenow="0">
+                <span></span>
+              </div>
+              <p id="dashWaterPercent" class="muted">0% of daily target</p>
+              <button class="btn btn-secondary" type="button" data-page="water">Open water tracker</button>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">HABIT BUILDER</p>
+                  <h2>Habit summary</h2>
+                </div>
+                <span aria-hidden="true">↗</span>
+              </div>
+              <div id="dashHabitSummary" class="summary-list">
+                <p class="empty-state">Your habits will appear here.</p>
+              </div>
+              <button class="btn btn-secondary" type="button" data-page="habits">View habits</button>
+            </article>
+
+            <article class="panel">
+              <div class="panel-heading">
+                <div>
+                  <p class="eyebrow">QUICK REMINDER</p>
+                  <h2>Shopping list</h2>
+                </div>
+                <span aria-hidden="true">🛒</span>
+              </div>
+              <div id="dashShoppingSummary" class="summary-list">
+                <p class="empty-state">Your shopping items will appear here.</p>
+              </div>
+              <button class="btn btn-secondary" type="button" data-page="shopping">View shopping list</button>
+            </article>
+          </div>
+
+          <article class="panel">
+            <div class="panel-heading">
+              <div>
+                <p class="eyebrow">QUICK ACCESS</p>
+                <h2>What would you like to do?</h2>
+              </div>
             </div>
-            <span class="stat-icon">💧</span>
+            <div class="quick-actions">
+              <button class="quick-action" type="button" data-page="money"><span>৳</span>Track money</button>
+              <button class="quick-action" type="button" data-page="calendar"><span>▦</span>Plan your day</button>
+              <button class="quick-action" type="button" data-page="pomodoro"><span>◷</span>Focus session</button>
+              <button class="quick-action" type="button" data-page="notes"><span>▤</span>Write a note</button>
+              <button class="quick-action" type="button" data-page="mood"><span>☻</span>Log your mood</button>
+              <button class="quick-action" type="button" data-page="backup"><span>⚙</span>Backup data</button>
+            </div>
+          </article>
+        </section>
+
+        <!-- MONEY MANAGER -->
+        <section id="money" class="page" data-page-section="money" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">PERSONAL FINANCE</p>
+            <h1>Money Manager</h1>
+            <p class="muted">Record income and spending privately on this device.</p>
           </div>
-          <div class="progress-track">
-            <div id="dashWaterBar" class="progress-fill"></div>
+
+          <div class="dashboard-grid">
+            <article class="stat-card">
+              <span class="stat-label">Income</span>
+              <strong id="totalIncome" class="stat-value">৳0.00</strong>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">Expenses</span>
+              <strong id="totalExpense" class="stat-value">৳0.00</strong>
+            </article>
+            <article class="stat-card">
+              <span class="stat-label">Balance</span>
+              <strong id="balance" class="stat-value">৳0.00</strong>
+            </article>
           </div>
-          <p id="dashWaterPercent" class="muted-text">0% of the 2000 ml target</p>
-          <button class="secondary-button" data-page="water" type="button">Open Water Tracker</button>
-        </div>
 
-        <div class="section-heading">
-          <h2>Your Tools</h2>
-          <p>Choose a feature to get started.</p>
-        </div>
+          <article class="panel">
+            <h2>Add transaction</h2>
+            <form id="moneyForm" class="form-grid">
+              <div class="form-field">
+                <label for="moneyType">Transaction type</label>
+                <select id="moneyType" name="type" required>
+                  <option value="income">Income</option>
+                  <option value="expense">Expense</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label for="moneyAmount">Amount (৳)</label>
+                <input id="moneyAmount" name="amount" type="number" min="0.01" max="1000000000000" step="0.01" placeholder="0.00" required>
+              </div>
+              <div class="form-field form-field-wide">
+                <label for="moneyNote">Description</label>
+                <input id="moneyNote" name="note" type="text" maxlength="200" placeholder="e.g. Transport, allowance, books">
+              </div>
+              <div class="form-field form-field-wide">
+                <button class="btn btn-primary" type="submit">+ Add transaction</button>
+              </div>
+            </form>
+          </article>
 
-        <div class="dashboard-grid">
-          <button class="dashboard-card" data-page="money" type="button">
-            <span class="card-icon">💰</span>
-            <span class="card-title">Money Manager</span>
-            <span class="card-description">Track income and expenses</span>
-          </button>
-          <button class="dashboard-card" data-page="shopping" type="button">
-            <span class="card-icon">🛍️</span>
-            <span class="card-title">Shopping List</span>
-            <span class="card-description">Keep your list organized</span>
-          </button>
-          <button class="dashboard-card" data-page="habits" type="button">
-            <span class="card-icon">🎯</span>
-            <span class="card-title">Habit Tracker</span>
-            <span class="card-description">Build daily habits</span>
-          </button>
-          <button class="dashboard-card" data-page="diary" type="button">
-            <span class="card-icon">📔</span>
-            <span class="card-title">My Diary</span>
-            <span class="card-description">Write your thoughts</span>
-          </button>
-          <button class="dashboard-card" data-page="water" type="button">
-            <span class="card-icon">💧</span>
-            <span class="card-title">Water Tracker</span>
-            <span class="card-description">Track your water intake</span>
-          </button>
-          <button class="dashboard-card" data-page="todo" type="button">
-            <span class="card-icon">✅</span>
-            <span class="card-title">To-Do List</span>
-            <span class="card-description">Plan your tasks</span>
-          </button>
-          <button class="dashboard-card" data-page="qr" type="button">
-            <span class="card-icon">🔳</span>
-            <span class="card-title">QR Generator</span>
-            <span class="card-description">Create QR codes offline</span>
-          </button>
-          <button class="dashboard-card" data-page="backup" type="button">
-            <span class="card-icon">💾</span>
-            <span class="card-title">Backup & Settings</span>
-            <span class="card-description">Protect your saved data</span>
-          </button>
-        </div>
-      </section>
+          <article class="panel">
+            <div class="panel-heading">
+              <h2>Transaction history</h2>
+              <span class="muted">Newest first</span>
+            </div>
+            <div id="moneyList" class="item-list">
+              <p class="empty-state">No transactions yet.</p>
+            </div>
+          </article>
 
-      <!-- MONEY MANAGER -->
-      <section id="money" class="page">
-        <div class="section-heading">
-          <p class="eyebrow">PERSONAL FINANCE</p>
-          <h2>💰 Money Manager</h2>
-          <p>Keep track of your money.</p>
-        </div>
+          <article class="panel">
+            <div class="panel-heading">
+              <h2>Spending overview</h2>
+              <span class="muted">Based on saved transactions</span>
+            </div>
+            <div id="moneyChart" class="chart-container" aria-label="Income and expenses chart">
+              <p class="empty-state">Add transactions to see your overview.</p>
+            </div>
+          </article>
+        </section>
 
-        <div class="summary-grid">
-          <div class="summary-card"><p>Total Income</p><h3 id="totalIncome">৳0</h3></div>
-          <div class="summary-card"><p>Total Expenses</p><h3 id="totalExpense">৳0</h3></div>
-          <div class="summary-card"><p>Balance</p><h3 id="balance">৳0</h3></div>
-        </div>
-
-        <div class="panel">
-          <h3>Add Transaction</h3>
-          <form id="moneyForm">
-            <label for="moneyType">Transaction type</label>
-            <select id="moneyType" required>
-              <option value="income">Income</option>
-              <option value="expense">Expense</option>
-            </select>
-            <label for="moneyAmount">Amount (৳)</label>
-            <input id="moneyAmount" type="number" min="0.01" step="0.01" placeholder="Enter amount" required>
-            <label for="moneyNote">Note</label>
-            <input id="moneyNote" type="text" maxlength="120" placeholder="e.g. Pocket money">
-            <button class="primary-button" type="submit">＋ Add Transaction</button>
-          </form>
-        </div>
-        <div class="panel"><h3>Transaction History</h3><div id="moneyList" class="item-list"></div></div>
-      </section>
-
-      <!-- SHOPPING -->
-      <section id="shopping" class="page">
-        <div class="section-heading">
-          <p class="eyebrow">YOUR CHECKLIST</p>
-          <h2>🛍️ Shopping List</h2>
-          <p>Never forget what you need.</p>
-        </div>
-        <div class="panel">
-          <form id="shoppingForm" class="inline-form">
-            <input id="shoppingInput" type="text" maxlength="120" placeholder="Add an item..." required>
-            <button class="primary-button" type="submit">Add</button>
-          </form>
-          <div id="shoppingList" class="item-list"></div>
-        </div>
-      </section>
-
-      <!-- HABITS -->
-      <section id="habits" class="page">
-        <div class="section-heading">
-          <p class="eyebrow">SMALL STEPS, BIG CHANGE</p>
-          <h2>🎯 Habit Tracker</h2>
-          <p>Build a routine one day at a time.</p>
-        </div>
-        <div class="panel">
-          <form id="habitForm" class="inline-form">
-            <input id="habitInput" type="text" maxlength="100" placeholder="Add a daily habit..." required>
-            <button class="primary-button" type="submit">Add</button>
-          </form>
-          <div id="habitList" class="item-list"></div>
-        </div>
-      </section>
-
-      <!-- DIARY -->
-      <section id="diary" class="page">
-        <div class="section-heading">
-          <p class="eyebrow">YOUR PRIVATE SPACE</p>
-          <h2>📔 My Diary</h2>
-          <p>Write down the moments that matter.</p>
-        </div>
-        <div class="panel">
-          <form id="diaryForm">
-            <label for="diaryDate">Date</label>
-            <input id="diaryDate" type="date" required>
-            <label for="diaryText">Your entry</label>
-            <textarea id="diaryText" rows="7" maxlength="10000" placeholder="Dear diary..." required></textarea>
-            <button class="primary-button" type="submit">Save Diary Entry</button>
-          </form>
-        </div>
-        <div class="panel"><h3>Past Entries</h3><div id="diaryList" class="item-list"></div></div>
-      </section>
-
-      <!-- WATER -->
-      <section id="water" class="page">
-        <div class="section-heading">
-          <p class="eyebrow">DAILY WELLNESS</p>
-          <h2>💧 Water Tracker</h2>
-          <p>Keep an eye on your daily water intake.</p>
-        </div>
-        <div class="panel water-panel">
-          <div class="water-drop">💧</div>
-          <p>Today's water intake</p>
-          <h2 id="waterCount">0 ml</h2>
-          <div class="progress-track"><div id="waterProgress" class="progress-fill"></div></div>
-          <p id="waterProgressText">0% of your daily target</p>
-          <div class="water-buttons">
-            <button id="waterAdd" class="primary-button" type="button">＋ 250 ml</button>
-            <button id="waterRemove" class="secondary-button" type="button">− 250 ml</button>
+        <!-- CALENDAR AND DAILY PLANNER -->
+        <section id="calendar" class="page" data-page-section="calendar" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">ORGANIZE YOUR TIME</p>
+            <h1>Calendar & Planner</h1>
+            <p class="muted">Keep your plans and reminders on your device.</p>
           </div>
-          <button id="waterReset" class="text-button" type="button">Reset today's count</button>
-        </div>
-      </section>
 
-      <!-- TO-DO -->
-      <section id="todo" class="page">
-        <div class="section-heading">
-          <p class="eyebrow">MAKE TODAY COUNT</p>
-          <h2>✅ To-Do List</h2>
-          <p>One task at a time.</p>
-        </div>
-        <div class="panel">
-          <form id="todoForm" class="inline-form">
-            <input id="todoInput" type="text" maxlength="200" placeholder="What do you need to do?" required>
-            <button class="primary-button" type="submit">Add</button>
-          </form>
-          <div id="todoList" class="item-list"></div>
-        </div>
-      </section>
+          <article class="panel">
+            <h2>Add a plan</h2>
+            <form id="plannerForm" class="form-grid">
+              <div class="form-field">
+                <label for="plannerDate">Date</label>
+                <input id="plannerDate" name="date" type="date" required>
+              </div>
+              <div class="form-field">
+                <label for="plannerTime">Time (optional)</label>
+                <input id="plannerTime" name="time" type="time">
+              </div>
+              <div class="form-field form-field-wide">
+                <label for="plannerTitle">Plan title</label>
+                <input id="plannerTitle" name="title" type="text" maxlength="160" placeholder="What do you need to do?" required>
+              </div>
+              <div class="form-field form-field-wide">
+                <label for="plannerDetails">Details (optional)</label>
+                <textarea id="plannerDetails" name="details" rows="3" maxlength="2000" placeholder="Add a few details..."></textarea>
+              </div>
+              <div class="form-field form-field-wide">
+                <button class="btn btn-primary" type="submit">Save plan</button>
+              </div>
+            </form>
+          </article>
 
-      <!-- QR GENERATOR -->
-      <section id="qr" class="page">
-        <div class="section-heading">
-          <p class="eyebrow">CREATE SOMETHING</p>
-          <h2>🔳 QR Generator</h2>
-          <p>Create a QR code on your device.</p>
-        </div>
-        <div class="panel">
-          <form id="qrForm">
-            <label for="qrInput">Text or URL</label>
-            <textarea id="qrInput" rows="3" maxlength="2000" placeholder="Enter text or a website link..." required></textarea>
-            <button class="primary-button" type="submit">Generate QR Code</button>
-          </form>
-          <div id="qrOutput" class="qr-output"></div>
-        </div>
-      </section>
+          <article class="panel">
+            <div class="form-field">
+              <label for="plannerFilterDate">Show plans for date</label>
+              <input id="plannerFilterDate" type="date">
+            </div>
+            <div id="plannerList" class="item-list">
+              <p class="empty-state">Your saved plans will appear here.</p>
+            </div>
+          </article>
+        </section>
 
-      <!-- BACKUP & SETTINGS -->
-      <section id="backup" class="page">
-        <div class="section-heading">
-          <p class="eyebrow">YOUR DATA, YOUR CONTROL</p>
-          <h2>💾 Backup & Settings</h2>
-          <p>Manage your offline app data.</p>
-        </div>
+        <!-- HABITS -->
+        <section id="habits" class="page" data-page-section="habits" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">BUILD BETTER ROUTINES</p>
+            <h1>Habit Tracker</h1>
+            <p class="muted">Focus on consistency, not perfection.</p>
+          </div>
 
-        <div class="panel">
-          <h3>Backup Your Data</h3>
-          <p>Export a backup file so you can keep a copy of your saved information.</p>
-          <button id="exportBackup" class="primary-button" type="button">Export Backup</button>
-          <div class="divider-line"></div>
-          <h3>Restore a Backup</h3>
-          <p>Choose a previously exported LifeMate backup file.</p>
-          <label for="importBackup">Select backup file</label>
-          <input id="importBackup" type="file" accept=".json,application/json">
-          <button id="importBackupButton" class="secondary-button" type="button">Import Backup</button>
-        </div>
+          <article class="panel">
+            <h2>Create a habit</h2>
+            <form id="habitForm" class="inline-form">
+              <label class="visually-hidden" for="habitInput">Habit name</label>
+              <input id="habitInput" name="habit" type="text" maxlength="120" placeholder="e.g. Read for 10 minutes" required>
+              <button class="btn btn-primary" type="submit">Add habit</button>
+            </form>
+          </article>
 
-        <div class="panel">
-          <h3>Appearance</h3>
-          <p>Switch between dark and light themes whenever you like.</p>
-          <button id="themeToggleSettings" class="secondary-button" type="button">Toggle Dark / Light Mode</button>
-        </div>
+          <article class="panel">
+            <div class="panel-heading">
+              <h2>Your habits</h2>
+              <span class="muted">Daily check-in</span>
+            </div>
+            <div id="habitList" class="item-list">
+              <p class="empty-state">No habits yet. Add your first habit above.</p>
+            </div>
+          </article>
+        </section>
 
-        <div class="panel">
-          <h3>🔐 App PIN Lock</h3>
-          <p>Set a 4–6 digit PIN to help prevent casual access to this app on this browser profile.</p>
-          <div id="pinStatus" class="setting-status">PIN lock is not enabled.</div>
-          <form id="setPinForm">
-            <label for="newPin">New PIN (4–6 digits)</label>
-            <input id="newPin" type="password" inputmode="numeric" pattern="[0-9]{4,6}" minlength="4" maxlength="6" autocomplete="new-password" placeholder="Create PIN">
-            <label for="confirmPin">Confirm PIN</label>
-            <input id="confirmPin" type="password" inputmode="numeric" pattern="[0-9]{4,6}" minlength="4" maxlength="6" autocomplete="new-password" placeholder="Enter PIN again">
-            <button class="primary-button" type="submit">Set / Change PIN</button>
-          </form>
-          <button id="disablePin" class="secondary-button" type="button">Turn Off PIN Lock</button>
-          <button id="lockNow" class="secondary-button" type="button">Lock App Now</button>
-          <p class="muted-text">Security note: this PIN lock is a convenience barrier, not encryption. Anyone with access to browser storage or your unlocked device may still access saved data.</p>
-        </div>
+        <!-- TASKS -->
+        <section id="todo" class="page" data-page-section="todo" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">ONE STEP AT A TIME</p>
+            <h1>Tasks</h1>
+            <p class="muted">Write it down, then work through it.</p>
+          </div>
 
-        <div class="panel">
-          <h3>📱 Install LifeMate</h3>
-          <p>Install the app on supported devices for a home-screen shortcut and cached offline access.</p>
-          <button id="installAppSettings" class="primary-button" type="button">Install App</button>
-          <p id="installHelp" class="muted-text">If the install button is unavailable, open this app through localhost or HTTPS and use your browser's install option.</p>
-        </div>
+          <article class="panel">
+            <h2>Add a task</h2>
+            <form id="todoForm" class="inline-form">
+              <label class="visually-hidden" for="todoInput">Task description</label>
+              <input id="todoInput" name="task" type="text" maxlength="300" placeholder="What needs to get done?" required>
+              <button class="btn btn-primary" type="submit">Add task</button>
+            </form>
+          </article>
 
-        <div class="panel danger-panel">
-          <h3>Reset App Data</h3>
-          <p>This deletes locally saved app information. Export a backup first if you need to keep it.</p>
-          <button id="resetApp" class="danger-button" type="button">Reset App Data</button>
-        </div>
+          <article class="panel">
+            <div class="panel-heading">
+              <h2>Your task list</h2>
+            </div>
+            <div id="todoList" class="item-list">
+              <p class="empty-state">No tasks yet. Add your first task above.</p>
+            </div>
+          </article>
+        </section>
 
-        <p class="footer-credit">LifeMate Offline · Made with ♥ by MASTERMIND</p>
-      </section>
-    </main>
+        <!-- POMODORO -->
+        <section id="pomodoro" class="page" data-page-section="pomodoro" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">FOCUS MODE</p>
+            <h1>Focus Timer</h1>
+            <p class="muted">Work in manageable sessions and take breaks.</p>
+          </div>
 
-    <!-- BOTTOM NAVIGATION -->
-    <nav class="bottom-nav" aria-label="Main navigation">
-      <button class="nav-item active" data-page="home" type="button"><span>⌂</span><small>Home</small></button>
-      <button class="nav-item" data-page="money" type="button"><span>৳</span><small>Money</small></button>
-      <button class="nav-item" data-page="habits" type="button"><span>🎯</span><small>Habits</small></button>
-      <button class="nav-item" data-page="todo" type="button"><span>✓</span><small>Tasks</small></button>
-      <button class="nav-item" data-page="backup" type="button"><span>⚙</span><small>Settings</small></button>
+          <article class="panel focus-panel">
+            <div class="timer-mode-switch" role="group" aria-label="Timer duration">
+              <button class="btn btn-secondary" type="button" data-timer-minutes="25">Focus · 25 min</button>
+              <button class="btn btn-secondary" type="button" data-timer-minutes="5">Short break · 5 min</button>
+              <button class="btn btn-secondary" type="button" data-timer-minutes="15">Long break · 15 min</button>
+            </div>
+
+            <div class="timer-display" aria-live="polite">
+              <span id="pomodoroMode">Ready to focus</span>
+              <strong id="pomodoroDisplay">25:00</strong>
+              <span id="pomodoroSessions" class="muted">Sessions completed: 0</span>
+            </div>
+
+            <div class="timer-actions">
+              <button id="pomodoroStart" class="btn btn-primary" type="button">Start</button>
+              <button id="pomodoroPause" class="btn btn-secondary" type="button">Pause</button>
+              <button id="pomodoroReset" class="btn btn-secondary" type="button">Reset</button>
+            </div>
+            <p class="small muted">The timer works while the app is open. Background timing may vary by device.</p>
+          </article>
+        </section>
+
+        <!-- MOOD TRACKER -->
+        <section id="mood" class="page" data-page-section="mood" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">CHECK IN WITH YOURSELF</p>
+            <h1>Mood Tracker</h1>
+            <p class="muted">Record how your day feels, without judging yourself.</p>
+          </div>
+
+          <article class="panel">
+            <h2>How are you feeling today?</h2>
+            <form id="moodForm">
+              <fieldset class="mood-options">
+                <legend>Choose a mood</legend>
+                <label><input type="radio" name="mood" value="great" required><span>😄 Great</span></label>
+                <label><input type="radio" name="mood" value="good"><span>🙂 Good</span></label>
+                <label><input type="radio" name="mood" value="okay"><span>😐 Okay</span></label>
+                <label><input type="radio" name="mood" value="low"><span>😔 Low</span></label>
+                <label><input type="radio" name="mood" value="stressed"><span>😣 Stressed</span></label>
+              </fieldset>
+
+              <div class="form-field">
+                <label for="moodNote">Optional note</label>
+                <textarea id="moodNote" name="note" rows="3" maxlength="1000" placeholder="Anything you want to remember about today..."></textarea>
+              </div>
+              <button class="btn btn-primary" type="submit">Save today's mood</button>
+            </form>
+          </article>
+
+          <article class="panel">
+            <h2>Mood history</h2>
+            <div id="moodList" class="item-list">
+              <p class="empty-state">Your mood check-ins will appear here.</p>
+            </div>
+          </article>
+        </section>
+
+        <!-- GOALS -->
+        <section id="goals" class="page" data-page-section="goals" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">MAKE PROGRESS VISIBLE</p>
+            <h1>Goals</h1>
+            <p class="muted">Break bigger goals into small, achievable steps.</p>
+          </div>
+
+          <article class="panel">
+            <h2>Create a goal</h2>
+            <form id="goalForm" class="form-grid">
+              <div class="form-field form-field-wide">
+                <label for="goalTitle">Goal title</label>
+                <input id="goalTitle" name="title" type="text" maxlength="160" placeholder="What would you like to work towards?" required>
+              </div>
+              <div class="form-field">
+                <label for="goalDeadline">Target date (optional)</label>
+                <input id="goalDeadline" name="deadline" type="date">
+              </div>
+              <div class="form-field">
+                <label for="goalTarget">Target steps</label>
+                <input id="goalTarget" name="target" type="number" min="1" max="100000" step="1" value="10" required>
+              </div>
+              <div class="form-field form-field-wide">
+                <button class="btn btn-primary" type="submit">Create goal</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="panel">
+            <h2>Your goals</h2>
+            <div id="goalList" class="item-list">
+              <p class="empty-state">Your goals will appear here.</p>
+            </div>
+          </article>
+        </section>
+
+        <!-- NOTES -->
+        <section id="notes" class="page" data-page-section="notes" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">THOUGHTS AND IDEAS</p>
+            <h1>Notes</h1>
+            <p class="muted">Keep useful information close at hand.</p>
+          </div>
+
+          <article class="panel">
+            <h2>Write a note</h2>
+            <form id="noteForm">
+              <div class="form-field">
+                <label for="noteTitle">Title</label>
+                <input id="noteTitle" name="title" type="text" maxlength="160" placeholder="Give your note a title" required>
+              </div>
+              <div class="form-field">
+                <label for="noteContent">Note</label>
+                <textarea id="noteContent" name="content" rows="7" maxlength="20000" placeholder="Write your thoughts here..." required></textarea>
+              </div>
+              <button class="btn btn-primary" type="submit">Save note</button>
+            </form>
+          </article>
+
+          <article class="panel">
+            <h2>Saved notes</h2>
+            <div id="notesList" class="item-list">
+              <p class="empty-state">No notes yet.</p>
+            </div>
+          </article>
+        </section>
+
+        <!-- SHOPPING -->
+        <section id="shopping" class="page" data-page-section="shopping" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">KEEP TRACK OF THE ESSENTIALS</p>
+            <h1>Shopping List</h1>
+            <p class="muted">Add items and mark them off as you go.</p>
+          </div>
+
+          <article class="panel">
+            <form id="shoppingForm" class="inline-form">
+              <label class="visually-hidden" for="shoppingInput">Shopping item</label>
+              <input id="shoppingInput" name="item" type="text" maxlength="200" placeholder="What do you need to buy?" required>
+              <button class="btn btn-primary" type="submit">Add item</button>
+            </form>
+          </article>
+
+          <article class="panel">
+            <div id="shoppingList" class="item-list">
+              <p class="empty-state">Your shopping list is empty.</p>
+            </div>
+          </article>
+        </section>
+
+        <!-- DIARY -->
+        <section id="diary" class="page" data-page-section="diary" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">A MOMENT FOR YOURSELF</p>
+            <h1>Diary</h1>
+            <p class="muted">Write about your day and save it privately on this device.</p>
+          </div>
+
+          <article class="panel">
+            <h2>Today's entry</h2>
+            <form id="diaryForm">
+              <div class="form-field">
+                <label for="diaryDate">Entry date</label>
+                <input id="diaryDate" name="date" type="date" required>
+              </div>
+              <div class="form-field">
+                <label for="diaryText">Your thoughts</label>
+                <textarea id="diaryText" name="entry" rows="8" maxlength="20000" placeholder="How was your day?" required></textarea>
+              </div>
+              <button class="btn btn-primary" type="submit">Save diary entry</button>
+            </form>
+          </article>
+
+          <article class="panel">
+            <h2>Past entries</h2>
+            <div id="diaryList" class="item-list">
+              <p class="empty-state">Your diary entries will appear here.</p>
+            </div>
+          </article>
+        </section>
+
+        <!-- WATER TRACKER -->
+        <section id="water" class="page" data-page-section="water" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">A GENTLE DAILY REMINDER</p>
+            <h1>Water Tracker</h1>
+            <p class="muted">Track what you drink and adjust your target to your needs.</p>
+          </div>
+
+          <article class="panel water-panel">
+            <div class="water-icon" aria-hidden="true">💧</div>
+            <strong id="waterCount" class="water-count">0 ml</strong>
+            <p id="waterProgressText" class="muted">Daily progress</p>
+            <div id="waterProgress" class="progress-track" role="progressbar" aria-label="Daily water progress" aria-valuemin="0" aria-valuemax="2000" aria-valuenow="0">
+              <span></span>
+            </div>
+
+            <div class="water-actions">
+              <button id="waterRemove" class="btn btn-secondary" type="button">− 250 ml</button>
+              <button id="waterAdd" class="btn btn-primary" type="button">+ 250 ml</button>
+              <button id="waterReset" class="btn btn-secondary" type="button">Reset today</button>
+            </div>
+            <p class="small muted">Hydration needs vary. Use this as a simple tracker, not medical advice.</p>
+          </article>
+        </section>
+
+        <!-- CALCULATOR -->
+        <section id="calculator" class="page" data-page-section="calculator" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">EVERYDAY TOOL</p>
+            <h1>Calculator</h1>
+            <p class="muted">A simple calculator that works offline.</p>
+          </div>
+
+          <article class="panel calculator-panel">
+            <label for="calculatorDisplay">Calculation</label>
+            <input id="calculatorDisplay" class="calculator-display" type="text" inputmode="decimal" autocomplete="off" placeholder="Enter a calculation" maxlength="120" aria-describedby="calculatorHelp">
+            <p id="calculatorHelp" class="small muted">Use numbers and basic operators (+, −, ×, ÷, parentheses, decimal points).</p>
+
+            <div class="calculator-grid" role="group" aria-label="Calculator keys">
+              <button type="button" data-calc="clear">C</button>
+              <button type="button" data-calc="backspace">⌫</button>
+              <button type="button" data-calc="(">(</button>
+              <button type="button" data-calc=")">)</button>
+
+              <button type="button" data-calc="7">7</button>
+              <button type="button" data-calc="8">8</button>
+              <button type="button" data-calc="9">9</button>
+              <button type="button" data-calc="/">÷</button>
+
+              <button type="button" data-calc="4">4</button>
+              <button type="button" data-calc="5">5</button>
+              <button type="button" data-calc="6">6</button>
+              <button type="button" data-calc="*">×</button>
+
+              <button type="button" data-calc="1">1</button>
+              <button type="button" data-calc="2">2</button>
+              <button type="button" data-calc="3">3</button>
+              <button type="button" data-calc="-">−</button>
+
+              <button type="button" data-calc="0">0</button>
+              <button type="button" data-calc=".">.</button>
+              <button type="button" data-calc="equals">=</button>
+              <button type="button" data-calc="+">+</button>
+            </div>
+            <p id="calculatorResult" class="calculator-result" aria-live="polite"></p>
+          </article>
+        </section>
+
+        <!-- QR GENERATOR -->
+        <section id="qr" class="page" data-page-section="qr" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">SHARE INFORMATION</p>
+            <h1>QR Generator</h1>
+            <p class="muted">Create a QR code from text or a link using the local QR library.</p>
+          </div>
+
+          <article class="panel">
+            <form id="qrForm">
+              <div class="form-field">
+                <label for="qrInput">Text or URL</label>
+                <textarea id="qrInput" name="content" rows="4" maxlength="2000" placeholder="Enter text or a URL..." required></textarea>
+              </div>
+              <button class="btn btn-primary" type="submit">Generate QR code</button>
+            </form>
+            <div id="qrOutput" class="qr-output" aria-live="polite"></div>
+          </article>
+        </section>
+
+        <!-- GLOBAL SEARCH -->
+        <section id="search" class="page" data-page-section="search" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">FIND IT FAST</p>
+            <h1>Search Everything</h1>
+            <p class="muted">Search across your saved LifeMate content on this device.</p>
+          </div>
+
+          <article class="panel">
+            <form id="globalSearchForm">
+              <div class="form-field">
+                <label for="globalSearchInput">Search your data</label>
+                <input id="globalSearchInput" name="query" type="search" maxlength="200" placeholder="Search tasks, notes, diary, habits..." autocomplete="off">
+              </div>
+              <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+            <div id="globalSearchResults" class="item-list" aria-live="polite">
+              <p class="empty-state">Type a word or phrase to search your saved data.</p>
+            </div>
+          </article>
+        </section>
+
+        <!-- SETTINGS AND BACKUP -->
+        <section id="backup" class="page" data-page-section="backup" hidden>
+          <div class="page-heading">
+            <p class="eyebrow">YOUR APP, YOUR SETTINGS</p>
+            <h1>Settings & Backup</h1>
+            <p class="muted">Manage appearance, app access, and local backups.</p>
+          </div>
+
+          <article class="panel">
+            <h2>Appearance</h2>
+            <p class="muted">Switch between dark and light themes.</p>
+            <div class="settings-actions">
+              <button id="themeToggleSettings" class="btn btn-secondary" type="button">Toggle theme</button>
+              <button id="installAppSettings" class="btn btn-secondary" type="button" hidden>Install LifeMate</button>
+              <button id="installHelp" class="btn btn-secondary" type="button">Installation help</button>
+            </div>
+          </article>
+
+          <article class="panel">
+            <h2>PIN lock</h2>
+            <p class="muted">Set a PIN to restrict access to the app on this device.</p>
+            <form id="setPinForm" class="form-grid">
+              <div class="form-field">
+                <label for="newPin">New PIN</label>
+                <input id="newPin" name="newPin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="64" placeholder="Create a PIN" required>
+              </div>
+              <div class="form-field">
+                <label for="confirmPin">Confirm PIN</label>
+                <input id="confirmPin" name="confirmPin" type="password" inputmode="numeric" autocomplete="new-password" maxlength="64" placeholder="Repeat your PIN" required>
+              </div>
+              <div class="form-field form-field-wide">
+                <button class="btn btn-primary" type="submit">Save PIN</button>
+              </div>
+            </form>
+            <p id="pinStatus" class="muted" role="status"></p>
+            <div class="settings-actions">
+              <button id="disablePin" class="btn btn-secondary" type="button">Disable PIN</button>
+              <button id="lockNow" class="btn btn-secondary" type="button">Lock app now</button>
+            </div>
+            <p class="small muted">Important: a PIN screen alone does not encrypt your saved data. Exported backups may contain private information, so store them carefully.</p>
+          </article>
+
+          <article class="panel">
+            <h2>Backup and restore</h2>
+            <p class="muted">Export your saved data to a file, or restore a previous LifeMate backup.</p>
+            <div class="settings-actions">
+              <button id="exportBackup" class="btn btn-primary" type="button">Export backup</button>
+              <button id="importBackupButton" class="btn btn-secondary" type="button">Import backup</button>
+              <input id="importBackup" type="file" accept=".json,application/json" hidden>
+            </div>
+            <p class="small muted">Keep backups in a private location. Importing a backup may replace current app data.</p>
+          </article>
+
+          <article class="panel">
+            <h2>Privacy & storage</h2>
+            <p>LifeMate is designed to store its data locally in your browser. Clearing browser storage or uninstalling the app may affect your data.</p>
+            <p class="small muted">Offline availability depends on the app being served from a supported local or HTTPS origin and its files being cached successfully.</p>
+          </article>
+
+          <article class="panel danger-panel">
+            <h2>Reset app data</h2>
+            <p class="muted">This can permanently remove your saved LifeMate data from this browser.</p>
+            <button id="resetApp" class="btn btn-danger" type="button">Reset all app data</button>
+          </article>
+
+          <footer class="app-footer">
+            <p><strong>LifeMate Offline</strong> · MASTERMIND Ultimate</p>
+            <p class="small muted">Built for personal organization. Your data stays on this device unless you export or share it.</p>
+          </footer>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- MOBILE BOTTOM NAVIGATION -->
+    <nav class="bottom-nav" aria-label="Quick navigation">
+      <button class="bottom-nav-item active" type="button" data-page="home">
+        <span aria-hidden="true">⌂</span><small>Home</small>
+      </button>
+      <button class="bottom-nav-item" type="button" data-page="money">
+        <span aria-hidden="true">৳</span><small>Money</small>
+      </button>
+      <button class="bottom-nav-item" type="button" data-page="habits">
+        <span aria-hidden="true">↗</span><small>Habits</small>
+      </button>
+      <button class="bottom-nav-item" type="button" data-page="todo">
+        <span aria-hidden="true">☑</span><small>Tasks</small>
+      </button>
+      <button class="bottom-nav-item" type="button" data-page="backup">
+        <span aria-hidden="true">⚙</span><small>Settings</small>
+      </button>
     </nav>
-
-    <div id="toast" class="toast" role="status" aria-live="polite"></div>
   </div>
 
-  <!-- Keep qrcode.min.js in this same folder. -->
-  <script src="qrcode.min.js"></script>
-  <script src="app.js"></script>
+  <!-- APP FEEDBACK -->
+  <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="./qrcode.min.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>
