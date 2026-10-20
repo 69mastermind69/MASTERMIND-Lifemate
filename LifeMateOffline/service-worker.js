@@ -1,7 +1,8 @@
 
 "use strict";
 
-const CACHE_NAME = "lifemate-mastermind-v1";
+const CACHE_NAME = "lifemate-mastermind-v2";
+
 const APP_FILES = [
   "./",
   "./index.html",
@@ -35,35 +36,52 @@ self.addEventListener("activate", (event) => {
   );
 });
 
+self.addEventListener("message", (event) => {
+  if (event.data === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
+
 self.addEventListener("fetch", (event) => {
   const request = event.request;
 
   if (request.method !== "GET") return;
 
   const url = new URL(request.url);
+
   if (url.origin !== self.location.origin) return;
 
   event.respondWith(
-    caches.match(request).then((cachedResponse) => {
-      if (cachedResponse) return cachedResponse;
+    caches.open(CACHE_NAME).then(async (cache) => {
+      const cached = await cache.match(request);
 
-      return fetch(request).then((response) => {
+      if (cached) return cached;
+
+      try {
+        const response = await fetch(request);
+
         if (response && response.ok && response.type === "basic") {
-          const copy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, copy);
-          });
+          await cache.put(request, response.clone());
         }
+
         return response;
-      });
-    }).catch(() => {
-      if (request.mode === "navigate") {
-        return caches.match("./index.html");
+      } catch (error) {
+        if (request.mode === "navigate") {
+          return (
+            await cache.match("./index.html")
+          ) || new Response("Offline", { status: 503 });
+        }
+
+        return new Response(
+          "Offline: এই ফাইলটি ক্যাশে পাওয়া যায়নি।",
+          {
+            status: 503,
+            headers: {
+              "Content-Type": "text/plain; charset=utf-8"
+            }
+          }
+        );
       }
-      return new Response("Offline: এই ফাইলটি এখন ক্যাশে নেই।", {
-        status: 503,
-        headers: { "Content-Type": "text/plain; charset=utf-8" }
-      });
     })
   );
 });
