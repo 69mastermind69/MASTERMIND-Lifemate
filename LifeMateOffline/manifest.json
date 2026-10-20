@@ -1,0 +1,23 @@
+
+{
+  "id": "./",
+  "name": "LifeMate Offline - MASTERMIND",
+  "short_name": "LifeMate",
+  "description": "Your personal offline life organizer",
+  "lang": "en",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#10090c",
+  "theme_color": "#170b0e",
+  "categories": ["productivity", "utilities", "lifestyle"],
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
